@@ -1,6 +1,6 @@
 const Reminders = require('../models/reminders');
 const {Op} = require('sequelize');
-const Reminder = require('../models/reminders');
+const ReminderModel = require('../models/reminders');
 
 class ReminderController {
     // Usando sequalize en memoria
@@ -25,7 +25,7 @@ class ReminderController {
             // No está claro en la pregunta
             data = await ReminderModel.findAll({
                 where: {
-                    [Op.and]: [{date: { [Op.gte] : new Date(Number(after).toISOString()) } }, { user }],
+                    [Op.and]: [{date: { [Op.gte] : new Date(Number(after)).toISOString() } }, { user }],
                 },
             });
         } else if (user) {
@@ -41,7 +41,7 @@ class ReminderController {
                 },
             });
         } else {
-            data = await Remindermodel.findAll({});
+            data = await ReminderModel.findAll({});
         }
 
         res.status(200).json(data);
@@ -63,6 +63,4 @@ class ReminderController {
     }
 }
 
-module.exports = {
-
-}
+module.exports = new ReminderController();
