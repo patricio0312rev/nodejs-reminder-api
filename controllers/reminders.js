@@ -16,6 +16,36 @@ class ReminderController {
             throw new Error(err.message);
         }
     }
+
+    async getAllReminders(req, res) {
+        const { user, after } = req.query;
+
+        let data = [];
+        if (user && after) {
+            // No está claro en la pregunta
+            data = await ReminderModel.findAll({
+                where: {
+                    [Op.and]: [{date: { [Op.gte] : new Date(Number(after).toISOString()) } }, { user }],
+                },
+            });
+        } else if (user) {
+            data = await ReminderModel.findAll({
+                where: {
+                    user,
+                },
+            });
+        } else if (after) {
+            data = await ReminderModel.findAll({
+                where: {
+                    data: { [Op.gte] : new Date(Number(after)).toISOString() },
+                },
+            });
+        } else {
+            data = await Remindermodel.findAll({});
+        }
+
+        res.status(200).json(data);
+    }
 }
 
 module.exports = {
