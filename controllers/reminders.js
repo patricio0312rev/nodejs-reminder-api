@@ -46,6 +46,17 @@ class ReminderController {
 
         res.status(200).json(data);
     }
+
+    async getReminderById(req, res) {
+        const { id } = req.params;
+        const data = await ReminderModel.findOne({ id });
+
+        if(data) {
+            res.status(200).json(data);
+        } else {
+            res.status(404).send("ID not found");
+        }
+    }
 }
 
 module.exports = {
