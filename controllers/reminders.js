@@ -57,6 +57,10 @@ class ReminderController {
             res.status(404).send("ID not found");
         }
     }
+
+    updateReminderById(req, res) {
+        res.status(405).json({ message: 'Not allowed.' });
+    }
 }
 
 module.exports = {
