@@ -1,4 +1,3 @@
-const Reminders = require('../models/reminders');
 const {Op} = require('sequelize');
 const ReminderModel = require('../models/reminders');
 
@@ -10,6 +9,7 @@ class ReminderController {
             const data = await ReminderModel.findAll({});
 
             body.id = data.length + 1;
+            body.isPublished = false;
             const response = await ReminderModel.create(body);
             res.status(201).json(response);
         } catch (err) {
@@ -37,7 +37,7 @@ class ReminderController {
         } else if (after) {
             data = await ReminderModel.findAll({
                 where: {
-                    data: { [Op.gte] : new Date(Number(after)).toISOString() },
+                    date: { [Op.gte] : new Date(Number(after)).toISOString() },
                 },
             });
         } else {
